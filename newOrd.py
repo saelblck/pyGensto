@@ -13,7 +13,7 @@ class info:
     def __init__(self, adm):
         self.adm = 'sam'
 
-        self.cliente = " "
+        self.cliente = ""
         self.mecanico = ""
         self.data = ""
 
