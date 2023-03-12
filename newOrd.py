@@ -1,10 +1,16 @@
 import os  # obrigatorio para limpar o terminal
+from datetime import date, datetime # biblioteca para obter data/hora
 from openpyxl import Workbook, load_workbook
 
-# Carregar dados para variável
+# Carregar o modelo na variavel
 wb = load_workbook('modelo/modOrd.xlsx')
 # Escolhe active sheet
 ws = wb.active
+
+# salva e formata a data
+# datetime.today() -> salva a data completa
+# .strftime() -> formada a tada de acordo com os argumentos
+data = datetime.today().strftime("%d-%m-%Y")
 
 # --- inicio class info ---
 class info:
@@ -27,6 +33,8 @@ class info:
         self.numPeca = ""
         self.descProduto = ""
         self.qnteProduto = ""
+
+        self.caminhoArquivo = 'arquivos/'
     # --- fim __init__ ---
 
     # --- inicio infoNovaOrd ---
@@ -73,11 +81,8 @@ class info:
             # limpa a tela
             os.system("cls")
 
-            data = input('\nData: ')
+            # salva a data
             self.data = data
-            # limpa a tela
-            os.system("cls")
-            
 
             maquina = input('\nNome da Maquina: ')
             self.nomeMaquina = maquina
@@ -111,17 +116,17 @@ class info:
     def gerarOrd(self):
 
         # insere as informações salvas nas celulas especificadas
-        ws['A4'] = self.cliente
-        ws['D4'] = self.mecanico
-        ws['A6'] = self.data
-        ws['A11'] = self.nomeMaquina
-        ws['E10'] = self.modMaquina
+        ws['B3'] = self.cliente
+        ws['E3'] = self.mecanico
+        ws['B5'] = self.data
+        ws['B10'] = self.nomeMaquina
         ws['B12'] = self.numMaquina
+        ws['E10'] = self.modMaquina
         ws['B14'] = self.reembolso
         ws['B15'] = self.compra
 
         # cria o nome pra o arquivo
-        nomeArquivo = 'arquivos/'+self.nomeMaquina + '_' + self.numMaquina+'.xlsx'
+        nomeArquivo = self.caminhoArquivo+self.nomeMaquina+'_'+self.modMaquina+'_'+self.numMaquina+'.xlsx'
         # salva o arquvio com o nom novo
         wb.save(nomeArquivo)
         print('\nArquivo salvo')
